@@ -1,0 +1,7 @@
+.idea
+.cache
+build
+var
+*egg-info
+*.egg
+*.swp
