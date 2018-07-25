@@ -1,4 +1,5 @@
 .idea
+*.so
 .cache
 build
 var

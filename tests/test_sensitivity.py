@@ -18,7 +18,7 @@ class TestSensitivity(object):
     def test_kmeans_sensitivity(self, gen_data):
         X, centers = gen_data
         alpha = 1
-        sensitivity = kmeans_sensitivity(X, centers, alpha)
+        sensitivity = kmeans_sensitivity(X, np.ones(X.shape[0]), centers, alpha)
 
         # calc sensitivity in Python to check Cython impl
         dists = np.zeros((X.shape[0], centers.shape[0]))

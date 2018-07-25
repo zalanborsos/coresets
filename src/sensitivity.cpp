@@ -15,14 +15,20 @@ const char* k_means_doc = R"(alma)";
 }  // namespace
 
 py::array_t<double> kmeans_sensitivity(const py::array_t<double>& points_,
+                                      const py::array_t<double>& weights_,
                                       const py::array_t<double>& centers_,
                                       const double alpha) {
   if (points_.shape(1) != centers_.shape(1)) {
     throw std::runtime_error(
         "Data points and centers should have the save dimension.");
   }
+  if (points_.shape(0) != weights_.shape(0)) {
+    throw std::runtime_error(
+        "The number of points and weights should be the same.");
+  }
   auto points = points_.unchecked<2>();
   auto centers = centers_.unchecked<2>();
+  auto weights = weights_.unchecked<1>();
 
   std::vector<double> dists(points.shape(0));
   std::vector<double> assign(points.shape(0));
@@ -49,21 +55,31 @@ py::array_t<double> kmeans_sensitivity(const py::array_t<double>& points_,
     centers_total_dist[i] = 0;
   }
 
+  double total_weight = 0;
   for (int i = 0; i < n; i++) {
-    total += dists[i];
-    centers_cnt[assign[i]]++;
-    centers_total_dist[assign[i]] += dists[i];
+    total += dists[i] * weights[i];
+    centers_cnt[assign[i]]+= weights[i];
+    centers_total_dist[assign[i]] += dists[i] * weights[i];
+    total_weight += weights[i];
   }
-  total /= points.shape(0);
+  total /= total_weight;
 
   py::array_t<double> sens_ = py::array_t<double>(points.shape(0));
   auto sens = sens_.mutable_unchecked<1>();
 
-  for (int i = 0; i < n; i++) {
-    sens(i) = 2 * alpha * dists[i] / total;
-    sens(i) += 4 * alpha * centers_total_dist[assign[i]] /
-               (centers_cnt[assign[i]] * total);
-    sens(i) += 4 * n / centers_cnt[assign[i]];
+  if (total == 0) {
+    for (int i = 0; i < n; i++) {
+        sens(i) = 1;
+    }
+  }
+  else {
+      for (int i = 0; i < n; i++) {
+        sens(i) = 2 * alpha * dists[i] / total;
+        sens(i) += 4 * alpha * centers_total_dist[assign[i]] /
+                   (centers_cnt[assign[i]] * total);
+        sens(i) += 4 * n / centers_cnt[assign[i]];
+        sens(i) *= weights(i);
+      }
   }
   return sens_;
 }
