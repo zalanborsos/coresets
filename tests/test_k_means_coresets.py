@@ -43,13 +43,3 @@ class TestCoresets(object):
         # assert that every point has weight 2
         assert np.allclose(w, np.ones(coreset_size) * 2)
 
-    def test_merge_coresets(self):
-        X = np.ones((1000, 10))
-        coreset_gen = KMeansCoreset(X, n_clusters=1)
-        C1, w1 = coreset_gen.generate_coreset(100)
-        C2, w2 = coreset_gen.generate_coreset(50)
-        C, w = coreset_gen.merge_coresets(C1, w1, C2, w2)
-        assert np.alltrue(C[:100] == C1)
-        assert np.alltrue(w[:100] == w1)
-        assert np.alltrue(C[-50:] == C2)
-        assert np.alltrue(w[-50:] == w2)

@@ -11,17 +11,22 @@ class WeightedKMeans():
 
     # currently only dense data format is supported
 
-    def __init__(self, n_clusters=10, init="k-means++", n_init=3, n_iter=2, tol=1e-4, random_state=None):
+    def __init__(self, n_clusters=10, init="k-means++", n_init=3, n_iter=3, max_iter=10, tol=1e-4, random_state=None):
+        self.init = init
         self.n_init = n_init
         self.n_iter = n_iter
-        self.init = init
+        self.max_iter = max_iter
         self.n_clusters = n_clusters
         self.tol = tol
         self.random_state = check_random_state(random_state)
         self.centers = None
         self.inertia = -1
 
-    def fit(self, X, w):
+    def fit(self, X, w=None):
+        if w is None:
+            w = np.ones(X.shape[0])
+        elif X.shape[0] != w.shape[0]:
+            raise ValueError("The number of weights must match the number of data points.")
         x_squared_norms = row_norms(X, squared=True)
         self.centers = None
 
@@ -40,7 +45,7 @@ class WeightedKMeans():
 
             inertia = np.full((X.shape[0]), np.inf)
 
-            for it in range(self.n_iter):
+            for it in range(self.max_iter):
                 # E-step
                 assignment, new_inertia = weighted_kmeans_.assignment_inertia(X, centers)
 

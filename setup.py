@@ -102,6 +102,8 @@ setup(
     packages=['coresets'],
     version=__version__,
     ext_modules=ext_modules,
-    install_requires=['pybind11>=2.2'],
+    install_requires=['pybind11>=2.2',
+                      'scikit-learn>=0.19.1',
+                      'numpy>=1.13.3'],
     cmdclass={'build_ext': BuildExt},
 )

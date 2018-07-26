@@ -37,9 +37,9 @@ class KMeansLightweightCoreset(Coreset):
         self.p /= np.sum(self.p)
 
 
-class KMeansUniform(Coreset):
+class KMeansUniformCoreset(Coreset):
     def __init__(self, X, w=None, random_state=None):
-        super(KMeansUniform, self).__init__(X, w, random_state)
+        super(KMeansUniformCoreset, self).__init__(X, w, random_state)
 
     def calc_sampling_distribution(self):
         self.p = np.ones(self.n_samples) / self.n_samples
