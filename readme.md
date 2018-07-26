@@ -1,7 +1,6 @@
 Setup
 -------
-pip
-pip install pybind11
+pip install -r requirements
 
 python setup.py build_ext --inplace
 
