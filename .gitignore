@@ -6,3 +6,5 @@ var
 *egg-info
 *.egg
 *.swp
+*.pyc
+tmp/
