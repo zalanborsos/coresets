@@ -99,11 +99,12 @@ class BuildExt(build_ext):
 
 setup(
     name='coresets',
-    packages=['coresets'],
+    packages=['coresets', 'algorithms', 'utils'],
     version=__version__,
     ext_modules=ext_modules,
     install_requires=['pybind11>=2.2',
                       'scikit-learn>=0.19.1',
+                      'scipy>=1.1.0',
                       'numpy>=1.13.3'],
     cmdclass={'build_ext': BuildExt},
 )
