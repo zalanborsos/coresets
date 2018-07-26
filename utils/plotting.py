@@ -18,4 +18,4 @@ def plot_2d_points_with_assignment(points, assignment):
 
 def plot_2d_points_and_coreset(points, coreset, weights):
     plt.scatter(points[:, 0], points[:, 1], c='gray', s=70, alpha=0.5)
-    plt.scatter(coreset[:, 0], coreset[:, 1], c='red', s=10 * weights, alpha=0.9, marker='*')
+    plt.scatter(coreset[:, 0], coreset[:, 1], c='red', s=60 + weights, alpha=0.9, marker='*')
