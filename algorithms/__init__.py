@@ -1,5 +1,5 @@
-from __future__ import absolute_import
+from __future__ import division, absolute_import
 
-from .weighted_kmeans import WeightedKMeans
-from .wgm import WeightedGaussianMixture
-from .wbgm import WeightedBayesianGaussianMixture
+from algorithms.weighted_kmeans import WeightedKMeans
+from algorithms.wgm import WeightedGaussianMixture
+from algorithms.wbgm import WeightedBayesianGaussianMixture

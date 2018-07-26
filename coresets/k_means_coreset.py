@@ -3,7 +3,7 @@ from sklearn.utils.extmath import row_norms
 
 from coresets import Coreset
 import numpy as np
-import sensitivity
+from coresets import sensitivity
 
 
 class KMeansCoreset(Coreset):

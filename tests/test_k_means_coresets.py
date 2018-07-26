@@ -4,7 +4,7 @@ import pytest
 from sklearn.datasets import load_iris
 import numpy as np
 
-from coresets import *
+import coresets
 
 class TestCoresets(object):
 
@@ -18,13 +18,13 @@ class TestCoresets(object):
         X = np.random.rand(100, 2) * 0.1
         X[-1] = np.array([1, 1])
 
-        coreset_gen = KMeansCoreset(X, n_clusters=1)
+        coreset_gen = coresets.KMeansCoreset(X, n_clusters=1)
         assert np.alltrue(coreset_gen.p[-1] >= coreset_gen.p)
 
 
     def test_kmeans_lightweight(self, gen_data):
         X = gen_data
-        lightweight_coreset_gen = KMeansLightweightCoreset(X)
+        lightweight_coreset_gen = coresets.KMeansLightweightCoreset(X)
         coreset_size = 50
         C, w = lightweight_coreset_gen.generate_coreset(coreset_size)
         assert C.shape[0] == coreset_size
@@ -33,7 +33,7 @@ class TestCoresets(object):
 
     def test_kmeans_lightweight_uniform(self):
         X = np.ones((100, 10))
-        lightweight_coreset_gen = KMeansLightweightCoreset(X)
+        lightweight_coreset_gen = coresets.KMeansLightweightCoreset(X)
         coreset_size = 50
         C, w = lightweight_coreset_gen.generate_coreset(coreset_size)
         assert C.shape[0] == coreset_size
