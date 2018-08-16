@@ -9,15 +9,17 @@ To get started, take a look at:
 
 Setup
 -------
->pip install -r requirements \
->python setup.py build_ext --inplace
-
+```
+pip install -r requirements \
+python setup.py build_ext --inplace
+```
 
 Running tests
 -------------
 In project root run:
-
->python -m pytest tests/ 
+```
+python -m pytest tests/ 
+```
 
 
 References
