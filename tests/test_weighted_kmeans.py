@@ -8,6 +8,7 @@ from algorithms import weighted_kmeans
 class TestWeightedKmeans(object):
 
     def test_kmeans_seeding(self):
+        # test that seeding with 2 clusters for 2 points achieves 0 cost
         X = np.array([[0, 0], [10, 10]])
         w = np.array([1, 1])
         km = weighted_kmeans.WeightedKMeans(n_clusters=2)
@@ -18,6 +19,7 @@ class TestWeightedKmeans(object):
         assert np.allclose(dists, 0)
 
     def test_kmeans_weighted(self):
+        # test k-Means with weighted data and 1 center
         X = np.array([[0, 0], [10, 10]])
         w = np.array([100, 1])
         km = weighted_kmeans.WeightedKMeans(n_clusters=1)

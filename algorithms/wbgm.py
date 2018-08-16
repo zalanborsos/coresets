@@ -4,7 +4,13 @@ from sklearn.mixture import BayesianGaussianMixture
 
 class WeightedBayesianGaussianMixture(BayesianGaussianMixture):
     """
-    Bayesian GMM model that supports weighted datasets.
+    Extends sklearn.mixture.BayesianGaussianMixture to support weighted data set.
+    Its methods and attributes are identical to the parent's, except for
+    the fit() method.
+
+    Parameters
+    ----------
+        See sklearn.mixture.BayesianGaussianMixture
     """
 
     def __init__(self, n_components=1, covariance_type='full', tol=1e-5,

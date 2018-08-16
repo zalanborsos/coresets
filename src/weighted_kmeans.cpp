@@ -11,8 +11,8 @@ namespace py = pybind11;
 using namespace std;
 namespace {
 
-const char* assignment_inertia_doc = R"(alma)";
-const char* update_centers_doc = R"(alma)";
+const char* assignment_inertia_doc = R"(assignment_inertia_doc)";
+const char* update_centers_doc = R"(update_centers_doc)";
 
 } // namespace
 
@@ -34,6 +34,8 @@ pybind11::tuple assignment_inertia(const pybind11::array_t<double>& points_,
 
     int n = points.shape(0);
 
+    // determine the cluster assignments for points and calculate
+    // the squared Euclidean distance the closest centers
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < centers.shape(0); j++) {
             double dist = 0;
@@ -75,6 +77,7 @@ pybind11::array_t<double> update_centers(const pybind11::array_t<double>& points
         cnt[i] = 0;
     }
 
+    //calculate the updated centers based on the new assignments
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < d; j++) {
             new_centers(assignments(i), j) += points(i, j) * weights(i);

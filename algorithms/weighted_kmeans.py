@@ -5,11 +5,17 @@ from algorithms import weighted_kmeans_
 import numpy as np
 
 
-class WeightedKMeans():
+class WeightedKMeans:
+    """
+    Implementation of k-Means that supports weighted data set. Since extending sklearn's k-Means is not
+    straightforward, this implementation only relies on sklearn's _init_centroids, the E and M steps are
+    implemented in C++ for efficiency.
+    This implementation does not use any heuristics for improving performance.
 
-    # this is a simple implementation of weighted K-Means
-
-    # currently only dense data format is supported
+    Parameters
+    ----------
+        The parameters are a subset of sklearn.cluster.k_means_.KMeans, please refer to it for more details.
+    """
 
     def __init__(self, n_clusters=10, init="k-means++", n_init=3, n_iter=3, max_iter=10, tol=1e-4, random_state=None):
         self.init = init

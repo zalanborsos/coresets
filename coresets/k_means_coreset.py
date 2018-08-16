@@ -7,6 +7,30 @@ from coresets import sensitivity
 
 
 class KMeansCoreset(Coreset):
+    """
+    Class for generating k-Means coreset based on the sensitivity framework
+    with importance sampling [1].
+
+    Parameters
+    ----------
+        X : ndarray, shape (n_points, n_dims)
+            The data set to generate coreset from.
+        w : ndarray, shape (n_points), optional
+            The weights of the data points. This allows generating coresets from a
+            weighted data set, for example generating coreset of a coreset. If None,
+            the data is treated as unweighted and w will be replaced by all ones array.
+        n_clusters : int
+            Number of clusters used for the initialization step.
+        init : for avaiable types, please refer to sklearn.cluster.k_means_._init_centroids
+            Method for initialization
+        random_state : int, RandomState instance or None, optional (default=None)
+
+    References
+    ----------
+        [1] Bachem, O., Lucic, M., & Krause, A. (2017). Practical coreset constructions
+        for machine learning. arXiv preprint arXiv:1703.06476.
+    """
+
     def __init__(self, X, w=None, n_clusters=10, init="k-means++", random_state=None):
         self.n_clusters = n_clusters
         self.init = init
@@ -21,6 +45,25 @@ class KMeansCoreset(Coreset):
 
 
 class KMeansLightweightCoreset(Coreset):
+    """
+       Class for generating k-Means coreset based on the importance sampling scheme of [1]
+
+       Parameters
+       ----------
+           X : ndarray, shape (n_points, n_dims)
+               The data set to generate coreset from.
+           w : ndarray, shape (n_points), optional
+               The weights of the data points. This allows generating coresets from a
+               weighted data set, for example generating coreset of a coreset. If None,
+               the data is treated as unweighted and w will be replaced by all ones array.
+           random_state : int, RandomState instance or None, optional (default=None)
+
+       References
+       ----------
+           [1] Bachem, O., Lucic, M., & Krause, A. (2017). Scalable and distributed
+           clustering via lightweight coresets. arXiv preprint arXiv:1702.08248.
+       """
+
     def __init__(self, X, w=None, random_state=None):
         super(KMeansLightweightCoreset, self).__init__(X, w, random_state)
 
@@ -38,9 +81,28 @@ class KMeansLightweightCoreset(Coreset):
 
 
 class KMeansUniformCoreset(Coreset):
+    """
+       Class for generating uniform subsamples of the data.
+
+       Parameters
+       ----------
+           X : ndarray, shape (n_points, n_dims)
+               The data set to generate coreset from.
+           w : ndarray, shape (n_points), optional
+               The weights of the data points. This allows generating coresets from a
+               weighted data set, for example generating coreset of a coreset. If None,
+               the data is treated as unweighted and w will be replaced by all ones array.
+           random_state : int, RandomState instance or None, optional (default=None)
+
+       References
+       ----------
+           [1] Bachem, O., Lucic, M., & Krause, A. (2017). Scalable and distributed
+           clustering via lightweight coresets. arXiv preprint arXiv:1702.08248.
+       """
+
     def __init__(self, X, w=None, random_state=None):
         super(KMeansUniformCoreset, self).__init__(X, w, random_state)
 
     def calc_sampling_distribution(self):
-        self.p = np.ones(self.n_samples) / self.n_samples
+        self.p = self.w
         self.p /= np.sum(self.p)

@@ -10,7 +10,7 @@ namespace py = pybind11;
 
 namespace {
 
-const char* k_means_doc = R"(alma)";
+const char* k_means_doc = R"(k_means)";
 
 }  // namespace
 
@@ -37,6 +37,8 @@ py::array_t<double> kmeans_sensitivity(const py::array_t<double>& points_,
   double total = 0;
   int n = points.shape(0);
 
+  // determine the cluster assignments for points and calculate
+  // the squared Euclidean distance the closest centers
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < centers.shape(0); j++) {
       double dist = 0;
@@ -55,6 +57,7 @@ py::array_t<double> kmeans_sensitivity(const py::array_t<double>& points_,
     centers_total_dist[i] = 0;
   }
 
+  //calculate the sensitivity upper bound for the points
   double total_weight = 0;
   for (int i = 0; i < n; i++) {
     total += dists[i] * weights[i];

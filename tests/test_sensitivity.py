@@ -16,6 +16,8 @@ class TestSensitivity(object):
         return X, centers
 
     def test_kmeans_sensitivity(self, gen_data):
+        # test kmeans sensitivity
+        # make sure that the efficient C++ implementation gives the same results as Python
         X, centers = gen_data
         alpha = 1
         sensitivity = kmeans_sensitivity(X, np.ones(X.shape[0]), centers, alpha)
