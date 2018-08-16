@@ -94,8 +94,7 @@ pybind11::array_t<double> update_centers(const pybind11::array_t<double>& points
     return new_centers_;
 }
 
-PYBIND11_MODULE(weighted_kmeans_, m)
-{
+PYBIND11_MODULE(weighted_kmeans_, m) {
     py::options options;
     options.disable_function_signatures();
     m.def("assignment_inertia", assignment_inertia, assignment_inertia_doc);
