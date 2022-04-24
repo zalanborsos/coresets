@@ -6,8 +6,6 @@ import numpy as np
 from coresets import sensitivity
 
 
-
-
 class KMeansCoreset(Coreset):
     """
     Class for generating k-Means coreset based on the sensitivity framework
