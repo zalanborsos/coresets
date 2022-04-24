@@ -1,5 +1,5 @@
-from sklearn.cluster.k_means_ import _init_centroids
 from sklearn.utils.extmath import row_norms
+from utils.kmeans_init import _init_centroids
 
 from coresets import Coreset
 import numpy as np
@@ -38,8 +38,8 @@ class KMeansCoreset(Coreset):
 
     def calc_sampling_distribution(self):
         x_squared_norms = row_norms(self.X, squared=True)
-        centers = _init_centroids(self.X, self.n_clusters, self.init, random_state=self.random_state,
-                                  x_squared_norms=x_squared_norms)
+        centers = _init_centroids(self.X, self.n_clusters, self.init, x_squared_norms=x_squared_norms,
+                                  random_state=self.random_state)
         sens = sensitivity.kmeans_sensitivity(self.X, self.w, centers, max(np.log(self.n_clusters), 1))
         self.p = sens / np.sum(sens)
 
